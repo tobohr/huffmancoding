@@ -1,5 +1,4 @@
 #include "huffman.h"
-#include "symtab.h"
 //Reads file to string
 char* readFileToString(string filepath){
 	long length;
@@ -29,6 +28,27 @@ void getFrequencyCharInTxtArray(string txt, int stringLength, int freq[]){
 		freq[temp]++;
 	}
 }
-void getFrequencyCharInTxt(string txt, int stringLength){
+symtabADT getFrequencyCharInTxt(string txt, int stringLength){
+	int i;
+	symtabADT symtab;
+	symtab = NewSymbolTable();
+	int value;
+	char temp[2];
+	for (i = 0; i < stringLength; i++){
+		temp[0] = tolower(txt[i]);
+		temp[1] = '\0';
+		value = Lookup(symtab,temp);
+		if (UNDEFINED == value){
+			value = 1;
+			Enter(symtab, temp, value);
+		}
+		else{
+			value++;
+			Enter(symtab, temp ,value);
+		}
+	}
+	return symtab;
+}
+void buildHuffmanTree(symtabADT charfreq){
 
 }
