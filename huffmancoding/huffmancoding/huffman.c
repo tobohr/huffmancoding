@@ -1,5 +1,5 @@
 #include "huffman.h"
-
+#include "symtab.h"
 //Reads file to string
 char* readFileToString(string filepath){
 	long length;
@@ -19,6 +19,16 @@ char* readFileToString(string filepath){
 	}
 	return fileAsString;
 }
-char* getFrequencyCharInTxt(string txt){
+void getFrequencyCharInTxtArray(string txt, int stringLength, int freq[]){
+	int i, temp;
+	for (i = 0; i < 30; i++){
+		freq[i] = 0;
+	}
+	for (i = 0; i < stringLength; i++){
+		temp = txt[i] - 'a';
+		freq[temp]++;
+	}
+}
+void getFrequencyCharInTxt(string txt, int stringLength){
 
 }

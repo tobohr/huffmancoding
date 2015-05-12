@@ -2,4 +2,5 @@
 #include <stdio.h>
 
 char* readFileToString(string filepath);
-char* getFrequencyCharInTxt(string txt);
+void getFrequencyCharInTxt(string txt, int stringLength);
+void getFrequencyCharInTxtArray(string txt, int stringLength, int freq[]);
