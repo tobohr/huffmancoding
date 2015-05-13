@@ -27,6 +27,11 @@ void getFrequencyCharInTxtArray(string txt, int stringLength, int freq[]){
 		temp = txt[i] - 'a';
 		freq[temp]++;
 	}
+	qsort(freq, 30, sizeof(int), intcmp);
+}
+int intcmp(const void * a, const void * b)
+{
+	return (*(int*)b - *(int*)a);
 }
 symtabADT getFrequencyCharInTxt(string txt, int stringLength){
 	int i;
@@ -49,6 +54,6 @@ symtabADT getFrequencyCharInTxt(string txt, int stringLength){
 	}
 	return symtab;
 }
-void buildHuffmanTree(symtabADT charfreq){
-
+void buildHuffmanTree(symtabADT charfreq,int charorder[]){
+	if
 }
