@@ -29,12 +29,18 @@
     <ClCompile Include="symtab.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="qarray.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="huffman.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="symtab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="queue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
