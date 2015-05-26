@@ -10,7 +10,6 @@ void main(void){
 	txtfile = readFileToString(filename);
 	symtabADT thefreq;
 	Nodes = getFrequencyCharInTxtArray(txtfile, 50);
-	buildHuffmanTree(Nodes);
+	buildHuffmanTree(Nodes,11);
 	//thefreq = getFrequencyCharInTxt(txtfile, 50);
-	printf("%d \n", test);
 }

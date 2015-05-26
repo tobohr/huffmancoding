@@ -75,25 +75,52 @@ symtabADT getFrequencyCharInTxt(string txt, int stringLength){
 }
 void buildHuffmanTree(nodeT* nodes, int nodeCount){
 	int i,j;
-	nodeT *mergequeue;
+	
 	nodeT node;
 	j = 0;
-	mergequeue = NewArray(30, nodeT);
+	nodeT *mergequeue = NewArray(30, nodeT);
 	for (i = 0; i < nodeCount; i++){
+		mergequeue[i] = New(nodeT);
 		mergequeue[i]->charvalue.freq = NULL;
 	}
-	for (i = 0; i < nodeCount; i + 2){
-		if (nodes[i]->charvalue.freq && mergequeue[j]->charvalue.freq == NULL){
-			node = New(nodeT);
+	i = 0;
+	while (i <= nodeCount){
+		node = New(nodeT);
+		if (mergequeue[j]->charvalue.freq == NULL){
 			node->children.leftchild = nodes[i];
-			node->children.leftchild = nodes[i + 1];
-			node->charvalue.freq = nodes[i]->charvalue.freq + nodes[i]->charvalue.freq;
-			mergequeue[j] = node;
-			j++;
-		} else if (mergequeue[j]->charvalue.freq < nodes[i]->charvalue.freq){
-		
+			node->charvalue.freq = nodes[i]->charvalue.freq;
+			i++;
+			//select leftchild specalcase
 		}
-		  
+		else if (nodes[i]->charvalue.freq > mergequeue[j]->charvalue.freq){
+			node->children.leftchild = nodes[i];
+			node->charvalue.freq += nodes[i]->charvalue.freq;
+			i++;
+			//select leftchild
+		} else{
+			node->children.rightchild = mergequeue[j];
+			node->charvalue.freq += mergequeue[i]->charvalue.freq;
+			j++;
+			//select leftchild
+		}
+		if (nodes[i]->charvalue.freq > mergequeue[j]->charvalue.freq){
+			node->children.rightchild = nodes[i];
+			node->charvalue.freq += nodes[i]->charvalue.freq;
+			node->nodetype = NodeParent;
+			i++;
+			//select rightchild
+		} else{
+			node->children.rightchild = mergequeue[j];
+			node->charvalue.freq += mergequeue[i]->charvalue.freq;
+			node->nodetype = NodeParent;
+			j++;
+			//select rightchild
+		}
+
+		mergequeue[j] = node;
+		//printf("%d \n", j);
+		//printf("%d \n", i);
 	}
-	
+
+
 }

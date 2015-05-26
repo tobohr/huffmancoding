@@ -26,6 +26,6 @@ int nodecmp(const void * a, const void * b);
 char* readFileToString(string filepath);
 symtabADT getFrequencyCharInTxt(string txt, int stringLength);
 nodeT* getFrequencyCharInTxtArray(string txt, int stringLength);
-void buildHuffmanTree(nodeT* nodes);
+void buildHuffmanTree(nodeT* nodes, int nodeCount);
 int intcmp(const void * a, const void * b);
 
