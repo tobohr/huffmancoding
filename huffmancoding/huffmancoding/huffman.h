@@ -3,10 +3,11 @@
 #include "genlib.h"
 #include "symtab.h"
 #include "queue.h"
+#include "strlib.h"
 
 typedef struct charvalueT {
 	char val;
-	int freq;
+	double freq;
 }charvalueT;
 
 typedef struct {
@@ -25,7 +26,8 @@ typedef struct {
 int nodecmp(const void * a, const void * b);
 char* readFileToString(string filepath);
 symtabADT getFrequencyCharInTxt(string txt, int stringLength);
-nodeT* getFrequencyCharInTxtArray(string txt, int stringLength);
+queueADT getFrequencyCharInTxtArray(string txt);
 void buildHuffmanTree(nodeT* nodes, int nodeCount);
+nodeT buildHuffmanLeaf(queueADT nodes, queueADT merge);
 int intcmp(const void * a, const void * b);
 

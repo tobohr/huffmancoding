@@ -11,22 +11,23 @@ char* readFileToString(string filepath){
 		fseek(file, 0, SEEK_END);
 		length = ftell(file);
 		rewind(file, 0);
-		fileAsString = (char*)malloc(length+1);
+		fileAsString = (char*)malloc(length);
 		fread(fileAsString, sizeof(char), length, file);
-		fileAsString[length + 1] = '\0';
+		fileAsString[length] = '\0';
 		fclose(file);
 	}
 	return fileAsString;
 }
-nodeT* getFrequencyCharInTxtArray(string txt, int stringLength) {
+nodeT* getFrequencyCharInTxtArray(string txt) {
 	int i,j, temp, freq[30];
 	queueADT queue;
 	nodeT mynode;
-	nodeT* Nodes = NewArray(30, nodeT);
+	nodeT Nodes[30];
+	int stringLength;
+	stringLength = StringLength(txt);
 	for (i = 0; i < 30; i++){
 		freq[i] = 0;
-		Nodes[i] = New(nodeT);
-		Nodes[i]->charvalue.freq = 0;
+		Nodes[i].charvalue.freq = 0;
 	}
 	for (i = 0; i < stringLength; i++){
 		temp = txt[i] - 'a';
@@ -36,21 +37,24 @@ nodeT* getFrequencyCharInTxtArray(string txt, int stringLength) {
 	queue = NewQueue();
 	for (i = 0; i < 30; i++){
 		if (freq[0] != 0){
-			Nodes[j]->charvalue.freq = freq[i];
-			Nodes[j]->charvalue.val = i + 'a';
+			Nodes[j].charvalue.freq = (double)freq[i] / (double)stringLength;
+			Nodes[j].charvalue.val = i + 'a';
 			j++;
 		}
 	}
-	qsort(Nodes, 30, sizeof(nodeT), nodecmp);
+	qsort(Nodes, 30, sizeof(double), nodecmp);
+
 	return Nodes;
 }
 int intcmp(const void * a, const void * b)
 {
 	return (*(int*)b - *(int*)a);
 }
-int nodecmp(const void * a, const void * b)
+double nodecmp(const void * a, const void * b)
 {
-	return ((*(nodeT*)b)->charvalue.freq - (*(nodeT*)a)->charvalue.freq);
+	double test;
+	test = (*(nodeT)b).charvalue.freq - (*(nodeT)a).charvalue.freq;
+	return (test);
 }
 symtabADT getFrequencyCharInTxt(string txt, int stringLength){
 	int i;
@@ -80,13 +84,13 @@ void buildHuffmanTree(nodeT* nodes, int nodeCount){
 	j = 0;
 	nodeT *mergequeue = NewArray(30, nodeT);
 	for (i = 0; i < nodeCount; i++){
-		mergequeue[i] = New(nodeT);
-		mergequeue[i]->charvalue.freq = NULL;
-	}
+		//mergequeue[i] = New(nodeT);
+		//mergequeue[i]->charvalue.freq = NULL;
+	}/*
 	i = 0;
 	while (i <= nodeCount){
 		node = New(nodeT);
-		if (mergequeue[j]->charvalue.freq == NULL){
+		if (mergequeue[j]->charvalue.freq == 0){
 			node->children.leftchild = nodes[i];
 			node->charvalue.freq = nodes[i]->charvalue.freq;
 			i++;
@@ -120,7 +124,7 @@ void buildHuffmanTree(nodeT* nodes, int nodeCount){
 		mergequeue[j] = node;
 		//printf("%d \n", j);
 		//printf("%d \n", i);
-	}
+	}*/
 
 
 }
