@@ -16,18 +16,18 @@ typedef struct {
 		NodeLeaf,
 		NodeParent
 	}nodetype;
-	union {
-		struct node *leftchild;
-		struct node *rightchild;
-	}children;
-
+	struct nodeT *leftchild;
+	struct nodeT *rightchild;
+	
 }*nodeT;
-
+void printCodes(nodeT root, int arr[], int top);
 int nodecmp(const void * a, const void * b);
 char* readFileToString(string filepath);
 symtabADT getFrequencyCharInTxt(string txt, int stringLength);
 queueADT getFrequencyCharInTxtArray(string txt);
-void buildHuffmanTree(nodeT* nodes, int nodeCount);
-nodeT buildHuffmanLeaf(queueADT nodes, queueADT merge);
+nodeT buildHuffmanTree(queueADT nodes);
+nodeT buildHuffmanLeaf(queueADT nodes);
+void printArr(int arr[], int n);
 int intcmp(const void * a, const void * b);
+int intcmp3(const void * a, const void * b);
 

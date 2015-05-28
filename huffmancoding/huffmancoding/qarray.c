@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include "genlib.h"
 #include "queue.h"
+#include "huffman.h"
 
 /*
  * Constants:
@@ -15,7 +16,7 @@
  * QueueArraySize -- Size of the internal array
  */
 
-#define MaxQueueSize   100
+#define MaxQueueSize   255
 #define QueueArraySize (MaxQueueSize + 1)
 
 /*
@@ -31,9 +32,9 @@
  * "ring buffer."  The functions use modular arithmetic to
  * implement this wrap-around behavior.
  */
-
+int nodecmp(const void * a, const void * b);
 struct queueCDT {
-    queueElementT elements[QueueArraySize];
+    nodeT elements[QueueArraySize];
     int head;
     int tail;
 };
@@ -48,22 +49,23 @@ queueADT NewQueue(void)
     queue->head = queue->tail = 0;
     return (queue);
 }
-
 void FreeQueue(queueADT queue)
 {
     FreeBlock(queue);
 }
 
-void Enqueue(queueADT queue, queueElementT element)
+void Enqueue(queueADT queue, nodeT element)
 {
     if (QueueIsFull(queue)) Error("Enqueue: queue is full");
-    queue->elements[queue->tail] = element;
-    queue->tail = (queue->tail + 1) % QueueArraySize;
+	queue->elements[queue->tail] = element;
+	queue->tail = (queue->tail + 1) % QueueArraySize;
+
+	qsort(queue->elements, queue->tail, sizeof(queue->elements[0]), nodecmp);
 }
 
 queueElementT Dequeue(queueADT queue)
 {
-    queueElementT result;
+	nodeT result;
 
     if (QueueIsEmpty(queue)) Error("Dequeue: queue is empty");
     result = queue->elements[queue->head];
