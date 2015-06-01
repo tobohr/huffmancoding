@@ -20,33 +20,18 @@
     </Library>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="huffman.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="mainProgram.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="symtab.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="huffman2.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="qarray.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="priority_queue.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="huffman.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="huffman.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="symtab.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="queue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="constants.h">

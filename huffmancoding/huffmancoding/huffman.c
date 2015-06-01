@@ -1,5 +1,5 @@
 #include "huffman.h"
-//Reads file to string
+
 char* readFileToString(string filepath){
 	long length;
 	FILE * file;
@@ -10,7 +10,7 @@ char* readFileToString(string filepath){
 	{
 		fseek(file, 0, SEEK_END);
 		length = ftell(file);
-		rewind(file, 0);
+		rewind(file);
 		fileAsString = (char*)malloc(length);
 		fread(fileAsString, sizeof(char), length, file);
 		fileAsString[length] = '\0';
@@ -18,113 +18,102 @@ char* readFileToString(string filepath){
 	}
 	return fileAsString;
 }
-nodeT* getFrequencyCharInTxtArray(string txt) {
-	int i,j, temp, freq[30];
-	queueADT queue;
-	nodeT mynode;
-	nodeT Nodes[30];
+void getFrequencyCharInTxtArray(string txt, priority_queue *pq) {
+	int i, temp, freq[255];
+	nodeT Newnode;
 	int stringLength;
 	stringLength = StringLength(txt);
-	for (i = 0; i < 30; i++){
+	for (i = 0; i < 255; i++){ //intitalize freqtable to 0
 		freq[i] = 0;
-		Nodes[i].charvalue.freq = 0;
 	}
-	for (i = 0; i < stringLength; i++){
-		temp = txt[i] - 'a';
+	for (i = 0; i < stringLength; i++){//counts chars in string
+		temp = txt[i];
 		freq[temp]++;
 	}
-	j = 0;
-	queue = NewQueue();
-	for (i = 0; i < 30; i++){
-		if (freq[0] != 0){
-			Nodes[j].charvalue.freq = (double)freq[i] / (double)stringLength;
-			Nodes[j].charvalue.val = i + 'a';
-			j++;
+	for (i = 0; i < 255; i++){
+		if (freq[i] != 0){
+			Newnode = New(nodeT);
+			Newnode->charvalue.freq = (double)freq[i] / (double)stringLength;
+			Newnode->charvalue.val = CharToString(i);
+			Newnode->nodetype = NodeLeaf;
+			Newnode->leftchild = NULL;
+			Newnode->rightchild = NULL;
+			priority_queue_insert(pq, Newnode);
 		}
 	}
-	qsort(Nodes, 30, sizeof(double), nodecmp);
-
-	return Nodes;
+	return;
 }
-int intcmp(const void * a, const void * b)
+int nodecmp(const void * a, const void * b)
 {
-	return (*(int*)b - *(int*)a);
+	nodeT value_1 = (nodeT *)a;
+	nodeT value_2 = (nodeT *)b;
+	if (value_1->charvalue.freq < value_2->charvalue.freq)
+	{
+		return SMALLER;
+	} else if (value_1->charvalue.freq == value_2->charvalue.freq)
+	{
+		return EQUAL;
+	} else
+	{
+		return GREATER;
+	}
 }
-double nodecmp(const void * a, const void * b)
+void printArr(int arr[], int n)
 {
-	double test;
-	test = (*(nodeT)b).charvalue.freq - (*(nodeT)a).charvalue.freq;
-	return (test);
-}
-symtabADT getFrequencyCharInTxt(string txt, int stringLength){
 	int i;
-	symtabADT symtab;
-	symtab = NewSymbolTable();
-	int value;
-	char temp[2];
-	for (i = 0; i < stringLength; i++){
-		temp[0] = tolower(txt[i]);
-		temp[1] = '\0';
-		value = Lookup(symtab,temp);
-		if (UNDEFINED == value){
-			value = 1;
-			Enter(symtab, temp, value);
-		}
-		else{
-			value++;
-			Enter(symtab, temp ,value);
+	for (i = 0; i < n; ++i)
+		printf("%d", arr[i]);
+	printf("\n");
+}
+void printCodes(nodeT root, int arr[], int top)
+{
+	// Assign 0 to left edge and recur
+	if (root->leftchild)
+	{
+		arr[top] = 0;
+		printCodes(root->leftchild, arr, top + 1);
+	}
+	// Assign 1 to right edge and recur
+	if (root->rightchild)
+	{
+		arr[top] = 1;
+		printCodes(root->rightchild, arr, top + 1);
+	}
+	// If this is a leaf node, then it contains one of the input
+	// characters, print the character and its code from arr[]
+	if (root->nodetype == NodeLeaf)
+	{
+		printf("%s: ", root->charvalue.val);
+		printArr(arr, top);
+	}
+}
+nodeT buildHuffmanTree(priority_queue *pq){
+	nodeT top;
+	int arr[30],depth;
+	depth= 0;
+	while (TRUE)
+	{
+		top = buildHuffmanLeaf(pq);
+		if (priority_queue_is_empty(pq)){
+			break;
 		}
 	}
-	return symtab;
-}
-void buildHuffmanTree(nodeT* nodes, int nodeCount){
-	int i,j;
-	
-	nodeT node;
-	j = 0;
-	nodeT *mergequeue = NewArray(30, nodeT);
-	for (i = 0; i < nodeCount; i++){
-		//mergequeue[i] = New(nodeT);
-		//mergequeue[i]->charvalue.freq = NULL;
-	}/*
-	i = 0;
-	while (i <= nodeCount){
-		node = New(nodeT);
-		if (mergequeue[j]->charvalue.freq == 0){
-			node->children.leftchild = nodes[i];
-			node->charvalue.freq = nodes[i]->charvalue.freq;
-			i++;
-			//select leftchild specalcase
-		}
-		else if (nodes[i]->charvalue.freq > mergequeue[j]->charvalue.freq){
-			node->children.leftchild = nodes[i];
-			node->charvalue.freq += nodes[i]->charvalue.freq;
-			i++;
-			//select leftchild
-		} else{
-			node->children.rightchild = mergequeue[j];
-			node->charvalue.freq += mergequeue[i]->charvalue.freq;
-			j++;
-			//select leftchild
-		}
-		if (nodes[i]->charvalue.freq > mergequeue[j]->charvalue.freq){
-			node->children.rightchild = nodes[i];
-			node->charvalue.freq += nodes[i]->charvalue.freq;
-			node->nodetype = NodeParent;
-			i++;
-			//select rightchild
-		} else{
-			node->children.rightchild = mergequeue[j];
-			node->charvalue.freq += mergequeue[i]->charvalue.freq;
-			node->nodetype = NodeParent;
-			j++;
-			//select rightchild
-		}
-
-		mergequeue[j] = node;
-		//printf("%d \n", j);
-		//printf("%d \n", i);
-	}*/
-
-
+	printCodes(top, arr, depth);
+	return top;
+} 
+nodeT buildHuffmanLeaf(priority_queue *pq){
+	nodeT left,right,top;
+	top = New(nodeT);
+	left = (nodeT *)priority_queue_poll(pq);
+	right = (nodeT *)priority_queue_poll(pq);
+	top->leftchild = left;
+	top->rightchild = right;
+	top->nodetype = NodeParent;
+	top->charvalue.val = Concat(left->charvalue.val, right->charvalue.val);
+	top->charvalue.freq = left->charvalue.freq + right->charvalue.freq;
+	if (priority_queue_is_empty(pq)){
+		return top;
+	}
+	priority_queue_insert(pq, top);
+	return top;
 }
