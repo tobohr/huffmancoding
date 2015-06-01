@@ -29,10 +29,13 @@
     <ClCompile Include="symtab.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="qarray.c">
+    <ClCompile Include="huffman2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="huffman2.c">
+    <ClCompile Include="priority_queue.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="qarray.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,6 +47,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="queue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="priority_queue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

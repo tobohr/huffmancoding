@@ -96,14 +96,14 @@
     </ClCompile>
     <ClCompile Include="huffman2.c" />
     <ClCompile Include="mainProgram.c" />
-    <ClCompile Include="qarray.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="priority_queue.c" />
+    <ClCompile Include="qarray.c" />
     <ClCompile Include="symtab.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="constants.h" />
     <ClInclude Include="huffman.h" />
+    <ClInclude Include="priority_queue.h" />
     <ClInclude Include="queue.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
