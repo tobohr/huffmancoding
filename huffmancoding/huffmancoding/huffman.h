@@ -7,7 +7,7 @@
 #include "priority_queue.h"
 
 typedef struct charvalueT {
-	char val;
+	string val;
 	double freq;
 }charvalueT;
 
@@ -28,7 +28,7 @@ char* readFileToString(string filepath);
 symtabADT getFrequencyCharInTxt(string txt, int stringLength);
 void getFrequencyCharInTxtArray(string txt, priority_queue *pq);
 nodeT buildHuffmanTree(priority_queue *pq);
-nodeT buildHuffmanLeaf(priority_queue *pq);
+nodeT buildHuffmanLeaf(priority_queue *pq, queueADT q);
 void printArr(int arr[], int n);
 int intcmp(const void * a, const void * b);
 int intcmp3(const void * a, const void * b);

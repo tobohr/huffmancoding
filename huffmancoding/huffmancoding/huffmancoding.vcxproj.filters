@@ -32,10 +32,10 @@
     <ClCompile Include="huffman2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="priority_queue.c">
+    <ClCompile Include="qarray.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="qarray.c">
+    <ClCompile Include="priority_queue.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
