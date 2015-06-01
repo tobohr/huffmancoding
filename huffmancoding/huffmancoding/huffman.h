@@ -20,7 +20,7 @@ typedef struct {
 	struct nodeT *rightchild;
 	
 }*nodeT;
-void printCodes(nodeT root, int arr[], int top);
+void printCodes(nodeT* root, int arr[], int top);
 int nodecmp(const void * a, const void * b);
 char* readFileToString(string filepath);
 symtabADT getFrequencyCharInTxt(string txt, int stringLength);

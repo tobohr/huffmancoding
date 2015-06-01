@@ -94,15 +94,15 @@ void printCodes(nodeT root, int arr[], int top)
 	}
 
 	// Assign 1 to right edge and recur
-	if (root->leftchild)
+	if (root->rightchild)
 	{
 		arr[top] = 1;
 		printCodes(root->rightchild, arr, top + 1);
 	}
-
+	printf("%c: \n", root->charvalue);
 	// If this is a leaf node, then it contains one of the input
 	// characters, print the character and its code from arr[]
-	if (isLeaf(root))
+	if (root->nodetype == NodeLeaf)
 	{
 		printf("%c: ", root->charvalue);
 		printArr(arr, top);

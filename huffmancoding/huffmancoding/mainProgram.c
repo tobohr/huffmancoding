@@ -15,4 +15,5 @@ void main(void){
 	que = getFrequencyCharInTxtArray(txtfile);
 	TEST = buildHuffmanTree(que);
 	printf("test");
+
 }
