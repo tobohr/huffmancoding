@@ -26,12 +26,13 @@ void main(void){
 	codes = NewArray(pqsize, huffmancodes);
 	currenthuffman = 0;
 	computeCodes(huffmantree, bits, depth, codes);
-
-	encrypted = encpryptText(codes, txtfile, pqsize);
+	//printCodes(huffmantree, bits, depth);
+	//encrypted = encpryptText(codes, txtfile, pqsize);
 
 	//txtfile = readFileToString("kod.txt");
 
-	decryptText(codes, encrypted, pqsize);
+	//decryptText(huffmantree, encrypted);
+
 	for (i = 0; i < pqsize; i++){
 		printf("%c: ", codes[i]->character);
 		printArr(codes[i]->bits, codes[i]->usedLength);

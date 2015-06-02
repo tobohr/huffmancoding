@@ -29,10 +29,12 @@ typedef struct {
 static int currenthuffman;
 
 string encpryptText(huffmancodes codes[], string txt, int used);
-string decryptText(huffmancodes codes[], string txt, int used);
+string decryptText(nodeT root, string txt);
 
 huffmancodes bitrep(huffmancodes codes[], int used, char character);
 void computeCodes(nodeT root, int arr[], int top, huffmancodes codes[]);
+
+char traverseTree(nodeT root, string pattern, int* depth);
 
 void printCodes(nodeT root, int arr[], int top);
 int nodecmp(const void * a, const void * b);

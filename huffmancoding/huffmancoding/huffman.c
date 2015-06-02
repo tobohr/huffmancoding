@@ -112,12 +112,14 @@ void printCodes(nodeT root, int arr[], int top)
 	// Assign 0 to left edge and recur
 	if (root->leftchild)
 	{
+		printf("/\n");
 		arr[top] = 0;
 		printCodes(root->leftchild, arr, top + 1);
 	}
 	// Assign 1 to right edge and recur
 	if (root->rightchild)
 	{
+		printf("\\\n");
 		arr[top] = 1;
 		printCodes(root->rightchild, arr, top + 1);
 	}
@@ -192,18 +194,39 @@ huffmancodes charrep(huffmancodes codes[],string bitrep, int used){
 	}
 	return NULL;
 }
-string decryptText(huffmancodes codes[], string txt, int used){
+string decryptText(nodeT root, string txt){
 
-	int stringLength, i, j;
+	int stringLength, i, j, *depth;
+	char test;
 	FILE* file;
+	depth = malloc(sizeof(int));
+	(*depth) = 0;
 	huffmancodes huff;
 	stringLength = StringLength(txt);
-	for (i = 0; i < stringLength; i++){
-		huff = charrep(codes, used, txt[i]);
-		if (huff != NULL){
-			file = fopen("dec.txt", "a");
-			fputc(huff->character, file);
-			fclose(file);
-		}
+	for (i = 0; (*depth) < stringLength; i++){
+		file = fopen("decode.txt", "a");
+		test = traverseTree(root, txt, depth);
+		fputc(test, file);
+		fclose(file);
 	}
+}
+char traverseTree(nodeT root, string pattern, int* depth){ 
+	int bit;
+	if (root->nodetype == NodeLeaf)
+		return root->charvalue.val[0];
+	bit = getBit(pattern, (*depth));
+	(*depth)++;
+	if (bit == 0){
+		traverseTree(root->leftchild, pattern, depth);
+	}
+	else if (bit == 1)
+		traverseTree(root->rightchild, pattern, depth);
+}
+int getBit(string encpryptetext, int index){
+	if (encpryptetext[index] == 48)
+		return 0;
+	else if (encpryptetext[index] == 49)
+		return 1;
+	else
+		return-1;
 }
