@@ -1,5 +1,4 @@
 #include "huffman.h"
-
 char* readFileToString(string filepath){
 	long length;
 	FILE * file;
@@ -65,6 +64,34 @@ void printArr(int arr[], int n)
 		printf("%d", arr[i]);
 	printf("\n");
 }
+void computeCodes(nodeT root, int arr[], int top, huffmancodes codes[]){
+	// Assign 0 to left edge and recur
+	if (root->leftchild)
+	{
+		arr[top] = 0;
+		computeCodes(root->leftchild, arr, top + 1, codes);
+	}
+	// Assign 1 to right edge and recur
+	if (root->rightchild)
+	{
+		arr[top] = 1;
+		computeCodes(root->rightchild, arr, top + 1, codes);
+	}
+	// If this is a leaf node, then it contains one of the input
+	// characters, print the character and its code from arr[]
+	if (root->nodetype == NodeLeaf)
+	{
+		int i;
+		codes[currenthuffman] = New(huffmancodes);
+		for (i = 0; i < top; i++){
+			codes[currenthuffman]->bits[i] = arr[i];
+		}
+		codes[currenthuffman]->usedLength = top;
+		codes[currenthuffman]->character = root->charvalue.val[0];
+		currenthuffman++;
+	}
+
+}
 void printCodes(nodeT root, int arr[], int top)
 {
 	// Assign 0 to left edge and recur
@@ -89,8 +116,8 @@ void printCodes(nodeT root, int arr[], int top)
 }
 nodeT buildHuffmanTree(priority_queue *pq){
 	nodeT top;
-	int arr[30],depth;
-	depth= 0;
+	int arr[30], depth, pqsize;
+	pqsize = priority_queue_size(pq);
 	while (TRUE)
 	{
 		top = buildHuffmanLeaf(pq);
@@ -98,7 +125,6 @@ nodeT buildHuffmanTree(priority_queue *pq){
 			break;
 		}
 	}
-	printCodes(top, arr, depth);
 	return top;
 } 
 nodeT buildHuffmanLeaf(priority_queue *pq){
@@ -116,4 +142,14 @@ nodeT buildHuffmanLeaf(priority_queue *pq){
 	}
 	priority_queue_insert(pq, top);
 	return top;
+}
+
+string encpryptText(huffmancodes codes[], string txt){
+
+}
+string decryptText(huffmancodes codes[], string txt){
+
+}
+string saveCodeToFile(huffmancodes codes[]){
+
 }
