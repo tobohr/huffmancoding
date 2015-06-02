@@ -107,6 +107,35 @@ void computeCodes(nodeT root, int arr[], int top, huffmancodes codes[]){
 	}
 
 }
+void printTree(nodeT root, int arr[], int depth)
+{
+	int i;
+	for (i = 0; i < 10-(2*depth); i++)
+		printf(" ");
+	// Assign 0 to left edge and recur
+	if (root->leftchild)
+	{
+		printTree(root->leftchild, arr, depth + 1);
+		for (i = 0; i < depth; i++)
+			printf(" ");
+		printf("%s \n","/");
+	}
+	// Assign 1 to right edge and recur
+	if (root->rightchild)
+	{
+		printTree(root->rightchild, arr, depth + 1);
+		for (i = 0; i < depth; i++)
+			printf(" ");
+		printf("%s \n", "\\");
+	}
+	// If this is a leaf node, then it contains one of the input
+	// characters, print the character and its code from arr[]
+	if (root->nodetype == NodeLeaf)
+	{
+		printf("    %s ", root->charvalue.val);
+		//printArr(arr, top);
+	}
+}
 void printCodes(nodeT root, int arr[], int top)
 {
 	// Assign 0 to left edge and recur
@@ -198,16 +227,15 @@ huffmancodes charrep(huffmancodes codes[],string bitrep, int used){
 void decryptText(nodeT root, string txt){
 
 	int stringLength, i, j, *depth;
-	char test;
+	char character;
 	FILE* file;
 	depth = malloc(sizeof(int));
 	(*depth) = 0;
-	huffmancodes huff;
 	stringLength = StringLength(txt);
 	for (i = 0; (*depth) < stringLength; i++){
 		file = fopen("decode.txt", "a");
-		test = traverseTree(root, txt, depth);
-		fputc(test, file);
+		character = traverseTree(root, txt, depth);
+		fputc(character, file);
 		fclose(file);
 	}
 }
