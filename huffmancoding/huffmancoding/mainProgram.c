@@ -10,7 +10,7 @@ void main(void){
 	nodeT huffmantree;
 	huffmancodes *codes;
 	priority_queue *pq;
-
+	string encrypted;
 	/* set intial value and stuff*/
 	pq = create_priority_queue(255, &nodecmp);
 	depth = 0;
@@ -27,6 +27,11 @@ void main(void){
 	currenthuffman = 0;
 	computeCodes(huffmantree, bits, depth, codes);
 
+	encrypted = encpryptText(codes, txtfile, pqsize);
+
+	//txtfile = readFileToString("kod.txt");
+
+	decryptText(codes, encrypted, pqsize);
 	for (i = 0; i < pqsize; i++){
 		printf("%c: ", codes[i]->character);
 		printArr(codes[i]->bits, codes[i]->usedLength);

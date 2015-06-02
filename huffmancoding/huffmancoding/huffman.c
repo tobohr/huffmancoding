@@ -64,6 +64,21 @@ void printArr(int arr[], int n)
 		printf("%d", arr[i]);
 	printf("\n");
 }
+string writeArr(huffmancodes huff)
+{
+	int i; string code;
+	FILE *file; 
+	code = "";
+	file = fopen("kod.txt", "a");
+	for (i = 0; i < huff->usedLength; ++i){
+		code = Concat(code, IntegerToString(huff->bits[i]));
+	}
+	//should not be here..
+	huff->bitrep = code;
+	fputs(code, file);
+	fclose(file);
+	return(code);
+}
 void computeCodes(nodeT root, int arr[], int top, huffmancodes codes[]){
 	// Assign 0 to left edge and recur
 	if (root->leftchild)
@@ -143,13 +158,52 @@ nodeT buildHuffmanLeaf(priority_queue *pq){
 	priority_queue_insert(pq, top);
 	return top;
 }
-
-string encpryptText(huffmancodes codes[], string txt){
-
+/**/
+string encpryptText(huffmancodes codes[], string txt, int used){
+	int stringLength, i, j;
+	FILE* file;
+	string code;
+	huffmancodes huff;
+	code = "";
+	stringLength = StringLength(txt);
+	for (i = 0; i < stringLength; i++){
+		huff = bitrep(codes, used, txt[i]);
+		if (huff != NULL){
+			code = Concat(code, writeArr(huff));
+		}
+	}
+	return code;
 }
-string decryptText(huffmancodes codes[], string txt){
-
+huffmancodes bitrep(huffmancodes codes[], int used, char character){
+	int i;
+	for (i = 0; i < used; i++){
+		if (codes[i]->character == character){
+			return codes[i];
+		}
+	}
+	return NULL;
 }
-string saveCodeToFile(huffmancodes codes[]){
+huffmancodes charrep(huffmancodes codes[],string bitrep, int used){
+	int i;
+	for (i = 0; i < used; i++){
+		if (codes[i]->bitrep == bitrep){
+			return codes[i];
+		}
+	}
+	return NULL;
+}
+string decryptText(huffmancodes codes[], string txt, int used){
 
+	int stringLength, i, j;
+	FILE* file;
+	huffmancodes huff;
+	stringLength = StringLength(txt);
+	for (i = 0; i < stringLength; i++){
+		huff = charrep(codes, used, txt[i]);
+		if (huff != NULL){
+			file = fopen("dec.txt", "a");
+			fputc(huff->character, file);
+			fclose(file);
+		}
+	}
 }

@@ -22,12 +22,18 @@ typedef struct {
 }*nodeT;
 typedef struct {
 	int bits[30];
+	string bitrep;
 	int usedLength;
 	char character;
 }*huffmancodes;
 static int currenthuffman;
 
+string encpryptText(huffmancodes codes[], string txt, int used);
+string decryptText(huffmancodes codes[], string txt, int used);
+
+huffmancodes bitrep(huffmancodes codes[], int used, char character);
 void computeCodes(nodeT root, int arr[], int top, huffmancodes codes[]);
+
 void printCodes(nodeT root, int arr[], int top);
 int nodecmp(const void * a, const void * b);
 char* readFileToString(string filepath);
