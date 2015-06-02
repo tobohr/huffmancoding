@@ -9,28 +9,32 @@ void main(void){
 	int i,j, pqsize, depth;
 	nodeT huffmantree;
 	huffmancodes *codes;
+	symtabADT symtab;
 	priority_queue *pq;
 	string encrypted;
 	/* set intial value and stuff*/
 	pq = create_priority_queue(255, &nodecmp);
 	depth = 0;
-	/* text input */
-	printf("Enter filename");
+	/* input */
+	printf("Enter filename ");
 	scanf("%s", &filename);
 	txtfile = readFileToString(filename);
-	getFrequencyCharInTxtArray(txtfile,pq);
 	
-	pqsize = priority_queue_size(pq);
+	//getFrequencyCharInTxtArray(txtfile,pq);
+	readFreqFromFile("engf.txt", pq);
+
+	pqsize = priority_queue_size(pq); //Checks size before the queue gets dequeued..
 	huffmantree = buildHuffmanTree(pq);
-	
+	/*Compute Codes*/
 	codes = NewArray(pqsize, huffmancodes);
 	currenthuffman = 0;
 	computeCodes(huffmantree, bits, depth, codes);
-	//printCodes(huffmantree, bits, depth);
+
+	/*encrypt*/
 	encpryptText(codes, txtfile, pqsize);
 
+	/*decrypt*/
 	encrypted = readFileToString("kod.txt");
-
 	decryptText(huffmantree, encrypted);
 
 	for (i = 0; i < pqsize; i++){

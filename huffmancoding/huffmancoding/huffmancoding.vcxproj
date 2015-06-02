@@ -93,11 +93,13 @@
     <ClCompile Include="huffman.c" />
     <ClCompile Include="mainProgram.c" />
     <ClCompile Include="priority_queue.c" />
+    <ClCompile Include="symtab.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
     <ClInclude Include="huffman.h" />
     <ClInclude Include="priority_queue.h" />
+    <ClInclude Include="symtab.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

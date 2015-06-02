@@ -231,3 +231,22 @@ int getBit(string encpryptetext, int index){
 	else
 		return-1;
 }
+void readFreqFromFile(string filename, priority_queue *pq){
+	FILE * file;
+	string line, freq;
+	nodeT nodeleaf;
+	file = fopen(filename, "r");
+	while (TRUE)
+	{
+		line = ReadLine(file);
+		if (line == NULL) break;
+		nodeleaf = New(nodeT);
+		nodeleaf->charvalue.val = CharToString(line[0]);
+		nodeleaf->charvalue.freq = StringToReal(SubString(line, 2, 6));
+		nodeleaf->nodetype = NodeLeaf;
+		nodeleaf->rightchild = NULL;
+		nodeleaf->leftchild = NULL;
+		priority_queue_insert(pq, nodeleaf);
+	}
+	fclose(file);
+}

@@ -29,6 +29,9 @@
     <ClCompile Include="huffman.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="symtab.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="huffman.h">
@@ -38,6 +41,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="priority_queue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="symtab.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
