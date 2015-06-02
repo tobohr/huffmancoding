@@ -27,11 +27,11 @@ void main(void){
 	currenthuffman = 0;
 	computeCodes(huffmantree, bits, depth, codes);
 	//printCodes(huffmantree, bits, depth);
-	//encrypted = encpryptText(codes, txtfile, pqsize);
+	encpryptText(codes, txtfile, pqsize);
 
-	//txtfile = readFileToString("kod.txt");
+	encrypted = readFileToString("kod.txt");
 
-	//decryptText(huffmantree, encrypted);
+	decryptText(huffmantree, encrypted);
 
 	for (i = 0; i < pqsize; i++){
 		printf("%c: ", codes[i]->character);

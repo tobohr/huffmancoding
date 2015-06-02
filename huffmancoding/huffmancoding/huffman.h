@@ -27,9 +27,10 @@ typedef struct {
 	char character;
 }*huffmancodes;
 static int currenthuffman;
+void writeArr(huffmancodes huff, FILE *file);
 
-string encpryptText(huffmancodes codes[], string txt, int used);
-string decryptText(nodeT root, string txt);
+void encpryptText(huffmancodes codes[], string txt, int used);
+void decryptText(nodeT root, string txt);
 
 huffmancodes bitrep(huffmancodes codes[], int used, char character);
 void computeCodes(nodeT root, int arr[], int top, huffmancodes codes[]);

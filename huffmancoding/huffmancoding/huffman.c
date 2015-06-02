@@ -1,4 +1,6 @@
 #include "huffman.h"
+#include <stdio.h>
+#include <string.h>
 char* readFileToString(string filepath){
 	long length;
 	FILE * file;
@@ -64,20 +66,18 @@ void printArr(int arr[], int n)
 		printf("%d", arr[i]);
 	printf("\n");
 }
-string writeArr(huffmancodes huff)
+void writeArr(huffmancodes huff, FILE *file)
 {
-	int i; string code;
-	FILE *file; 
-	code = "";
-	file = fopen("kod.txt", "a");
+	int i; char *code;
+	code = malloc(sizeof(*code) * huff->usedLength);
+	code[0] = 0;
 	for (i = 0; i < huff->usedLength; ++i){
-		code = Concat(code, IntegerToString(huff->bits[i]));
+		strcat(code, IntegerToString(huff->bits[i]));
 	}
 	//should not be here..
 	huff->bitrep = code;
 	fputs(code, file);
-	fclose(file);
-	return(code);
+	return;
 }
 void computeCodes(nodeT root, int arr[], int top, huffmancodes codes[]){
 	// Assign 0 to left edge and recur
@@ -161,20 +161,21 @@ nodeT buildHuffmanLeaf(priority_queue *pq){
 	return top;
 }
 /**/
-string encpryptText(huffmancodes codes[], string txt, int used){
+void encpryptText(huffmancodes codes[], string txt, int used){
 	int stringLength, i, j;
 	FILE* file;
 	string code;
 	huffmancodes huff;
-	code = "";
+	file = fopen("kod.txt", "a");
 	stringLength = StringLength(txt);
 	for (i = 0; i < stringLength; i++){
 		huff = bitrep(codes, used, txt[i]);
 		if (huff != NULL){
-			code = Concat(code, writeArr(huff));
+			writeArr(huff,file);
 		}
 	}
-	return code;
+	fclose(file);
+
 }
 huffmancodes bitrep(huffmancodes codes[], int used, char character){
 	int i;
@@ -194,7 +195,7 @@ huffmancodes charrep(huffmancodes codes[],string bitrep, int used){
 	}
 	return NULL;
 }
-string decryptText(nodeT root, string txt){
+void decryptText(nodeT root, string txt){
 
 	int stringLength, i, j, *depth;
 	char test;
