@@ -12,6 +12,7 @@ void decryptWrap(nodeT huffmantree);
 nodeT huffmancodeWrap(void);
 void getfreqWrap(string txtfile, priority_queue *pq);
 void Usefilefreq(void);
+static int pqsize;
 
 static bool useFreqFromOtherFile = FALSE;
 void main(void){
@@ -19,33 +20,31 @@ void main(void){
 	string *cmd;
 	cmd = malloc(20 * sizeof(char));
 	nodeT huffmantree;
-
+	huffmancodes codes[200];
 	while (TRUE)
 
 	{
 		printf("Waiting for command \n");
 		scanf("%s", cmd);
 		if (StringEqual("codefile", cmd))
-			huffmantree = huffmancodeWrap();
+			huffmantree = huffmancodeWrap(codes);
+		if (StringEqual("decrypt", cmd))
+			decryptWrap(huffmantree); 
+		if (StringEqual("loadfreq", cmd))
+			Usefilefreq();
+		if (StringEqual("savefreq", cmd))
+			saveFileFreq(codes, pqsize);
 		if (StringEqual("decrypt", cmd))
 			decryptWrap(huffmantree);
-		/*for (i = 0; i < pqsize; i++){
-			printf("%c: ", codes[i]->character);
-			printArr(codes[i]->bits, codes[i]->usedLength);
-		}*/
-
-
 	}
 }
-nodeT huffmancodeWrap(void){
+nodeT huffmancodeWrap(huffmancodes *codes){
 		priority_queue *pq;
 
 		char *txtfile, filename[40], bits[120], top;
-		int i, j, pqsize, depth, Amountofbitsbefore, Amountofbits;
+		int i, j, depth, Amountofbitsbefore, Amountofbits;
 		string filename2;
 		nodeT huffmantree;
-		huffmancodes *codes;
-		symtabADT symtab;
 
 		/* set intial value and stuff*/
 		pq = create_priority_queue(255, &nodecmp);
@@ -64,8 +63,8 @@ nodeT huffmancodeWrap(void){
 		pqsize = priority_queue_size(pq); //Checks size before the queue gets dequeued..
 		huffmantree = buildHuffmanTree(pq);
 		/*Compute Codes*/
-		codes = NewArray(pqsize, huffmancodes);
 		currenthuffman = 0;
+		//codes = NewArray(pqsize, huffmancodes);
 		computeCodes(huffmantree, bits, depth, codes);
 		top = 0;
 		txtfile = readFileToString(filename2);
@@ -77,25 +76,37 @@ nodeT huffmancodeWrap(void){
 		Amountofbits = StringLength(txtfile);
 		printf("Amountofbits After: %d \n", Amountofbits);
 		printf("Compressionrateof %f \n", (double)Amountofbits/Amountofbitsbefore);
-
+		
+		/*Prints*/
+		for (i = 0; i < pqsize; i++){
+			printf("%c: ", codes[i]->character);
+			printArr(codes[i]->bits, codes[i]->usedLength);
+		}
 		return huffmantree;
 }
 
 void getfreqWrap(string txtfile, priority_queue *pq){
 	if (!useFreqFromOtherFile)
 		getFrequencyCharInTxtArray(txtfile, pq);
-	else
-		readFreqFromFile("engf.txt", pq);
+	else{
+		char filename[20];
+		printf("Please enter filename for freqfile \n");
+		scanf("%s", &filename);
+		readFreqFromFile(filename, pq);
+	}
 }
 void Usefilefreq(void){
 	if (useFreqFromOtherFile){
 		useFreqFromOtherFile = FALSE;
-		printf("set to false");
+		printf("now using freq from based on inputfile \n");
 	}
 	else{
 		useFreqFromOtherFile = TRUE;
-		printf("set to true");
+		printf("now using freq from seprate freq-file \n");
 	}
+}
+saveFileFreqWrap(){
+
 }
 void decryptWrap(nodeT huffmantree){
 	/*decrypt*/
@@ -104,15 +115,13 @@ void decryptWrap(nodeT huffmantree){
 	decryptText(huffmantree, encrypted);
 }
 void menu(void){
-	printf("Availible commands \n");
-
-	printf("'codefile' to read file that you want to code with huffmancoding\n");
-	printf("'decrypt' read file thats coded with huffman");
-
-	printf("'comp-p' print compression rate\n");
-	printf("'loadfreq' to load letterfreq from file\n");
-	printf("'savefreq' to save letterfreq to file\n");
-
-	printf("Good too know \n");
-	printf("ehhh..Nothing atm \n");
+	printf("\t\t Availible commands \n");
+	printf("---------------------------------\n");
+	printf("\t'codefile' to read file that you want to code with huffmancoding\n");
+	printf("\t'decrypt' read file thats coded with huffman");
+	printf("\t'comp-p' print compression rate\n");
+	printf("\t'loadfreq' to load letterfreq from file\n");
+	printf("\t'savefreq' to save letterfreq to file\n");
+	printf("\tGood too know \n");
+	printf("\tehhh..Nothing atm \n");
 }

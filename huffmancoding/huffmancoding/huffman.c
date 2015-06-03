@@ -74,8 +74,6 @@ void writeArr(huffmancodes huff, FILE *file)
 	for (i = 0; i < huff->usedLength; ++i){
 		strcat(code, IntegerToString(huff->bits[i]));
 	}
-	//should not be here..
-	huff->bitrep = code;
 	fputs(code, file);
 	return;
 }
@@ -101,6 +99,7 @@ void computeCodes(nodeT root, int arr[], int top, huffmancodes codes[]){
 		for (i = 0; i < top; i++){
 			codes[currenthuffman]->bits[i] = arr[i];
 		}
+		codes[currenthuffman]->freq = root->charvalue.freq;
 		codes[currenthuffman]->usedLength = top;
 		codes[currenthuffman]->character = root->charvalue.val[0];
 		currenthuffman++;
@@ -215,15 +214,6 @@ huffmancodes bitrep(huffmancodes codes[], int used, char character){
 	}
 	return NULL;
 }
-huffmancodes charrep(huffmancodes codes[],string bitrep, int used){
-	int i;
-	for (i = 0; i < used; i++){
-		if (codes[i]->bitrep == bitrep){
-			return codes[i];
-		}
-	}
-	return NULL;
-}
 void decryptText(nodeT root, string txt){
 
 	int stringLength, i, j, *depth;
@@ -275,6 +265,22 @@ void readFreqFromFile(string filename, priority_queue *pq){
 		nodeleaf->rightchild = NULL;
 		nodeleaf->leftchild = NULL;
 		priority_queue_insert(pq, nodeleaf);
+	}
+	fclose(file);
+}
+void saveFileFreq(huffmancodes codes[], int count){
+	int i;
+	FILE *file;
+	char filename[30];
+	printf("Please enter filename \n");
+	scanf("%s",&filename);
+	file = fopen(filename, "w");
+
+	for (i = 0; i < count; i++){
+		fputc(codes[i]->character, file);
+		fputc(' ', file);
+		fputs(RealToString(codes[i]->freq),file);
+		fputs("\n", file);
 	}
 	fclose(file);
 }

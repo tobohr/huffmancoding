@@ -23,9 +23,9 @@ typedef struct {
 }*nodeT;
 typedef struct {
 	int bits[30];
-	string bitrep;
 	int usedLength;
 	char character;
+	double freq;
 }*huffmancodes;
 static int currenthuffman;
 void writeArr(huffmancodes huff, FILE *file);
