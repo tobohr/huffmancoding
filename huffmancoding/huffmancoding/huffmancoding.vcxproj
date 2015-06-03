@@ -84,6 +84,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Library Include="..\..\..\..\..\Documents\Visual Studio 2013\lib\GraphicsLib2010.lib" />
     <Library Include="..\..\..\..\..\Documents\Visual Studio 2013\lib\PCLibs2012.lib">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>

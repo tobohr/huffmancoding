@@ -27,6 +27,8 @@ typedef struct {
 	char character;
 	double freq;
 }*huffmancodes;
+
+void printTree2(nodeT root, int arr[], int depth, double x, double y, bool Right);
 static int currenthuffman;
 void writeArr(huffmancodes huff, FILE *file);
 

@@ -18,6 +18,7 @@
     <Library Include="..\..\..\..\..\Documents\Visual Studio 2013\lib\PCLibs2012.lib">
       <Filter>Resource Files</Filter>
     </Library>
+    <Library Include="..\..\..\..\..\Documents\Visual Studio 2013\lib\GraphicsLib2010.lib" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mainProgram.c">

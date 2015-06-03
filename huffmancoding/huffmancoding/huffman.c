@@ -1,6 +1,7 @@
 #include "huffman.h"
 #include <stdio.h>
 #include <string.h>
+#include "graphics.h"
 char* readFileToString(string filepath){
 	long length;
 	FILE * file;
@@ -105,6 +106,37 @@ void computeCodes(nodeT root, int arr[], int top, huffmancodes codes[]){
 		currenthuffman++;
 	}
 
+}
+void printTree2(nodeT root, int arr[], int depth, double x, double y, bool Right)
+{
+	int i;
+	if (root->leftchild)
+	{
+		x = x - (double)1 / 50;
+		y = y - (double)1 / 50;
+		DrawLine(x, y);
+		printTree2(root->leftchild, arr, depth + 1, x, y, FALSE);
+	}
+	if (root->rightchild) 
+	{
+		x = x + (double)1 / 50;
+		y = y - (double)1 / 50;
+		DrawLine(x, y);
+		printTree2(root->rightchild, arr, depth + 1, x, y, TRUE);
+	}
+	if (root->nodetype == NodeLeaf)
+	{
+		DrawTextString(root->charvalue.val);
+		if (!Right){
+			x = x - (double)1 / 50;
+			y = y + (double)1 / 5;
+			MovePen(x, y);
+		} else{
+			x = x + (double)1 / 50;
+			y = y + (double)1 / 50;
+			MovePen(x, y);
+		}
+	}
 }
 void printTree(nodeT root, int arr[], int depth)
 {

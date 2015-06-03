@@ -66,7 +66,12 @@ nodeT huffmancodeWrap(huffmancodes *codes){
 		currenthuffman = 0;
 		//codes = NewArray(pqsize, huffmancodes);
 		computeCodes(huffmantree, bits, depth, codes);
+
 		top = 0;
+		//InitGraphics();
+		//MovePen(1, 1);
+		//printTree2(huffmantree, bits, top, 2, 2, FALSE);
+
 		txtfile = readFileToString(filename2);
 		//printTree(huffmantree, bits, top);
 		/*encrypt*/
@@ -115,13 +120,10 @@ void decryptWrap(nodeT huffmantree){
 	decryptText(huffmantree, encrypted);
 }
 void menu(void){
-	printf("\t\t Availible commands \n");
+	printf("\t\Availible commands \n");
 	printf("---------------------------------\n");
-	printf("\t'codefile' to read file that you want to code with huffmancoding\n");
-	printf("\t'decrypt' read file thats coded with huffman");
-	printf("\t'comp-p' print compression rate\n");
-	printf("\t'loadfreq' to load letterfreq from file\n");
-	printf("\t'savefreq' to save letterfreq to file\n");
-	printf("\tGood too know \n");
-	printf("\tehhh..Nothing atm \n");
+	printf("'codefile' to read file that you want to code with huffmancoding\n");
+	printf("'decrypt' read file thats coded with huffman\n");
+	printf("'loadfreq' to load letterfreq from file\n");
+	printf("'savefreq' to save letterfreq to file\n");
 }
