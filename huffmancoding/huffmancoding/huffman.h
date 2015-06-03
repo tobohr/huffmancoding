@@ -20,7 +20,6 @@ typedef struct {
 	}nodetype;
 	struct nodeT *leftchild;
 	struct nodeT *rightchild;
-	
 }*nodeT;
 typedef struct {
 	int bits[30];

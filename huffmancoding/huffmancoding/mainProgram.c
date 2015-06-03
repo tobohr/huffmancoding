@@ -16,14 +16,15 @@ void Usefilefreq(void);
 static bool useFreqFromOtherFile = FALSE;
 void main(void){
 	menu();
-	char cmd[20];
+	string *cmd;
+	cmd = malloc(20 * sizeof(char));
 	nodeT huffmantree;
 
 	while (TRUE)
 
 	{
 		printf("Waiting for command \n");
-		scanf("%s", &cmd);
+		scanf("%s", cmd);
 		if (StringEqual("codefile", cmd))
 			huffmantree = huffmancodeWrap();
 		if (StringEqual("decrypt", cmd))
@@ -39,7 +40,7 @@ void main(void){
 nodeT huffmancodeWrap(void){
 		priority_queue *pq;
 
-		char *txtfile, filename[20], cmd[20], bits[30], top;
+		char *txtfile, filename[40], bits[120], top;
 		int i, j, pqsize, depth, Amountofbitsbefore, Amountofbits;
 		string filename2;
 		nodeT huffmantree;
@@ -60,8 +61,6 @@ nodeT huffmancodeWrap(void){
 		filename2 = CopyString(filename);
 
 		getfreqWrap(txtfile, pq);
-
-
 		pqsize = priority_queue_size(pq); //Checks size before the queue gets dequeued..
 		huffmantree = buildHuffmanTree(pq);
 		/*Compute Codes*/
