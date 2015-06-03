@@ -195,7 +195,7 @@ void encpryptText(huffmancodes codes[], string txt, int used){
 	FILE* file;
 	string code;
 	huffmancodes huff;
-	file = fopen("kod.txt", "a");
+	file = fopen("huff.txt", "a");
 	stringLength = StringLength(txt);
 	for (i = 0; i < stringLength; i++){
 		huff = bitrep(codes, used, txt[i]);
