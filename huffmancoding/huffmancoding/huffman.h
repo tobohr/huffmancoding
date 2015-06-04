@@ -6,6 +6,7 @@
 #include "priority_queue.h"
 #include "symtab.h"
 #include "simpio.h"
+#include "graphics.h"
 
 typedef struct charvalueT {
 	string val;
@@ -21,6 +22,7 @@ typedef struct {
 	struct nodeT *leftchild;
 	struct nodeT *rightchild;
 }*nodeT;
+
 typedef struct {
 	int bits[30];
 	int usedLength;
@@ -28,9 +30,10 @@ typedef struct {
 	double freq;
 }*huffmancodes;
 
-void printTree2(nodeT root, int arr[], int depth, double x, double y, bool Right);
 static int currenthuffman;
-void writeArr(huffmancodes huff, FILE *file);
+
+void writeHuff(huffmancodes huff, FILE *file);
+int nodecmp(const void * a, const void * b);
 
 void encpryptText(huffmancodes codes[], string txt, int used);
 void decryptText(nodeT root, string txt);
@@ -38,14 +41,18 @@ void decryptText(nodeT root, string txt);
 huffmancodes bitrep(huffmancodes codes[], int used, char character);
 void computeCodes(nodeT root, int arr[], int top, huffmancodes codes[]);
 
-char traverseTree(nodeT root, string pattern, int* depth);
 
+char traverseTree(nodeT root, string pattern, int* depth);
 void printCodes(nodeT root, int arr[], int top);
-int nodecmp(const void * a, const void * b);
+void printTree(nodeT root, int arr[], int depth, bool Right);
+
 char* readFileToString(string filepath);
-void getFrequencyCharInTxtArray(string txt, priority_queue *pq);
+void getFrequencyCharInTxt(string txt, priority_queue *pq);
+
 nodeT buildHuffmanTree(priority_queue *pq);
-void readFreqFromFile(string filename, priority_queue *pq);
 nodeT buildHuffmanLeaf(priority_queue *pq);
+
+void readFreqFromFile(string filename, priority_queue *pq);
+void saveFileFreq(huffmancodes codes[], int count);
+
 void printArr(int arr[], int n);
-int intcmp(const void * a, const void * b);

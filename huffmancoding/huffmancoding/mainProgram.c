@@ -6,23 +6,26 @@
 #include <limits.h>
 #include <stdio.h>
 #include <ctype.h>
+#include "graphics.h"
 
 void menu(void);
+
 void decryptWrap(nodeT huffmantree);
 nodeT huffmancodeWrap(void);
 void getfreqWrap(string txtfile, priority_queue *pq);
 void Usefilefreq(void);
-static int pqsize;
+void printTree(nodeT root, int arr[], int depth, bool Right);
 
 static bool useFreqFromOtherFile = FALSE;
+static int pqsize;
+
 void main(void){
-	menu();
 	string *cmd;
 	cmd = malloc(20 * sizeof(char));
 	nodeT huffmantree;
 	huffmancodes codes[200];
+	menu();
 	while (TRUE)
-
 	{
 		printf("Waiting for command \n");
 		scanf("%s", cmd);
@@ -39,12 +42,11 @@ void main(void){
 	}
 }
 nodeT huffmancodeWrap(huffmancodes *codes){
-		priority_queue *pq;
-
-		char *txtfile, filename[40], bits[120], top;
+		char *txtfile, filename[40], bits[120];
 		int i, j, depth, Amountofbitsbefore, Amountofbits;
 		string filename2;
 		nodeT huffmantree;
+		priority_queue *pq;
 
 		/* set intial value and stuff*/
 		pq = create_priority_queue(255, &nodecmp);
@@ -64,20 +66,17 @@ nodeT huffmancodeWrap(huffmancodes *codes){
 		huffmantree = buildHuffmanTree(pq);
 		/*Compute Codes*/
 		currenthuffman = 0;
-		//codes = NewArray(pqsize, huffmancodes);
 		computeCodes(huffmantree, bits, depth, codes);
 
-		top = 0;
-		//InitGraphics();
-		//MovePen(1, 1);
-		//printTree2(huffmantree, bits, top, 2, 2, FALSE);
+		/*InitGraphics();
+		MovePen(3.5, 3.5);
+		printTree(huffmantree, bits, depth, FALSE);*/
 
 		txtfile = readFileToString(filename2);
-		//printTree(huffmantree, bits, top);
 		/*encrypt*/
 		encpryptText(codes, txtfile, pqsize);
-
 		txtfile = readFileToString("huff.txt");
+
 		Amountofbits = StringLength(txtfile);
 		printf("Amountofbits After: %d \n", Amountofbits);
 		printf("Compressionrateof %f \n", (double)Amountofbits/Amountofbitsbefore);
@@ -92,7 +91,7 @@ nodeT huffmancodeWrap(huffmancodes *codes){
 
 void getfreqWrap(string txtfile, priority_queue *pq){
 	if (!useFreqFromOtherFile)
-		getFrequencyCharInTxtArray(txtfile, pq);
+		getFrequencyCharInTxt(txtfile, pq);
 	else{
 		char filename[20];
 		printf("Please enter filename for freqfile \n");
@@ -109,9 +108,6 @@ void Usefilefreq(void){
 		useFreqFromOtherFile = TRUE;
 		printf("now using freq from seprate freq-file \n");
 	}
-}
-saveFileFreqWrap(){
-
 }
 void decryptWrap(nodeT huffmantree){
 	/*decrypt*/

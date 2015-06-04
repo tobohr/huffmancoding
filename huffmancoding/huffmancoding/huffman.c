@@ -1,7 +1,6 @@
 #include "huffman.h"
 #include <stdio.h>
 #include <string.h>
-#include "graphics.h"
 char* readFileToString(string filepath){
 	long length;
 	FILE * file;
@@ -20,7 +19,7 @@ char* readFileToString(string filepath){
 	}
 	return fileAsString;
 }
-void getFrequencyCharInTxtArray(string txt, priority_queue *pq) {
+void getFrequencyCharInTxt(string txt, priority_queue *pq){
 	int i, temp, freq[255];
 	nodeT Newnode;
 	int stringLength;
@@ -67,7 +66,7 @@ void printArr(int arr[], int n)
 		printf("%d", arr[i]);
 	printf("\n");
 }
-void writeArr(huffmancodes huff, FILE *file)
+void writeHuff(huffmancodes huff, FILE *file)
 {
 	int i; char *code;
 	code = malloc(sizeof(*code) * huff->usedLength);
@@ -78,117 +77,87 @@ void writeArr(huffmancodes huff, FILE *file)
 	fputs(code, file);
 	return;
 }
-void computeCodes(nodeT root, int arr[], int top, huffmancodes codes[]){
-	// Assign 0 to left edge and recur
+void computeCodes(nodeT root, int arr[], int depth, huffmancodes codes[]){
 	if (root->leftchild)
 	{
-		arr[top] = 0;
-		computeCodes(root->leftchild, arr, top + 1, codes);
+		arr[depth] = 0;
+		computeCodes(root->leftchild, arr, depth + 1, codes);
 	}
-	// Assign 1 to right edge and recur
 	if (root->rightchild)
 	{
-		arr[top] = 1;
-		computeCodes(root->rightchild, arr, top + 1, codes);
+		arr[depth] = 1;
+		computeCodes(root->rightchild, arr, depth + 1, codes);
 	}
-	// If this is a leaf node, then it contains one of the input
-	// characters, print the character and its code from arr[]
 	if (root->nodetype == NodeLeaf)
 	{
 		int i;
 		codes[currenthuffman] = New(huffmancodes);
-		for (i = 0; i < top; i++){
+		for (i = 0; i < depth; i++){
 			codes[currenthuffman]->bits[i] = arr[i];
 		}
 		codes[currenthuffman]->freq = root->charvalue.freq;
-		codes[currenthuffman]->usedLength = top;
+		codes[currenthuffman]->usedLength = depth;
 		codes[currenthuffman]->character = root->charvalue.val[0];
 		currenthuffman++;
 	}
 
 }
-void printTree2(nodeT root, int arr[], int depth, double x, double y, bool Right)
+void printTree(nodeT root, int arr[], int depth, bool Right)
 {
+	double x, y;
 	int i;
 	if (root->leftchild)
 	{
-		x = x - (double)1 / 50;
-		y = y - (double)1 / 50;
+		x = -(double)1 / 4;
+		y = -(double)1 / 4;
 		DrawLine(x, y);
-		printTree2(root->leftchild, arr, depth + 1, x, y, FALSE);
+		printTree(root->leftchild, arr, depth + 1, FALSE);
 	}
-	if (root->rightchild) 
+	if (root->rightchild)
 	{
-		x = x + (double)1 / 50;
-		y = y - (double)1 / 50;
+		x = (double)1 / 4;
+		y = -(double)1 / 4;
 		DrawLine(x, y);
-		printTree2(root->rightchild, arr, depth + 1, x, y, TRUE);
+		printTree(root->rightchild, arr, depth + 1, TRUE);
+
 	}
 	if (root->nodetype == NodeLeaf)
 	{
 		DrawTextString(root->charvalue.val);
-		if (!Right){
-			x = x - (double)1 / 50;
-			y = y + (double)1 / 5;
+		Pause(2);
+		x = GetCurrentX() - (double)1 / 13;
+		y = GetCurrentY();
+		MovePen(x, y);
+		if (Right){
+			x = GetCurrentX() - (double)1 / 4;
+			y = GetCurrentY() + (double)1 / 4;
 			MovePen(x, y);
 		} else{
-			x = x + (double)1 / 50;
-			y = y + (double)1 / 50;
+			x = GetCurrentX() + (double)1 / 4;
+			y = GetCurrentY() + (double)1 / 4;
 			MovePen(x, y);
 		}
 	}
 }
-void printTree(nodeT root, int arr[], int depth)
+
+
+void printCodes(nodeT root, int arr[], int depth)
 {
-	int i;
-	for (i = 0; i < 10-(2*depth); i++)
-		printf(" ");
-	// Assign 0 to left edge and recur
-	if (root->leftchild)
-	{
-		printTree(root->leftchild, arr, depth + 1);
-		for (i = 0; i < depth; i++)
-			printf(" ");
-		printf("%s \n","/");
-	}
-	// Assign 1 to right edge and recur
-	if (root->rightchild)
-	{
-		printTree(root->rightchild, arr, depth + 1);
-		for (i = 0; i < depth; i++)
-			printf(" ");
-		printf("%s \n", "\\");
-	}
-	// If this is a leaf node, then it contains one of the input
-	// characters, print the character and its code from arr[]
-	if (root->nodetype == NodeLeaf)
-	{
-		printf("    %s ", root->charvalue.val);
-		//printArr(arr, top);
-	}
-}
-void printCodes(nodeT root, int arr[], int top)
-{
-	// Assign 0 to left edge and recur
 	if (root->leftchild)
 	{
 		printf("/\n");
-		arr[top] = 0;
-		printCodes(root->leftchild, arr, top + 1);
+		arr[depth] = 0;
+		printCodes(root->leftchild, arr, depth + 1);
 	}
-	// Assign 1 to right edge and recur
 	if (root->rightchild)
 	{
-		printf("\\\n");
-		arr[top] = 1;
-		printCodes(root->rightchild, arr, top + 1);
+		arr[depth] = 1;
+		printCodes(root->rightchild, arr, depth + 1);
 	}
-	// If this is a leaf node, then it contains one of the input
-	// characters, print the character and its code from arr[]
 	if (root->nodetype == NodeLeaf)
 	{
 		printf("%s: ", root->charvalue.val);
-		printArr(arr, top);
+		printArr(arr, depth);
 	}
 }
 nodeT buildHuffmanTree(priority_queue *pq){
@@ -220,7 +189,6 @@ nodeT buildHuffmanLeaf(priority_queue *pq){
 	priority_queue_insert(pq, top);
 	return top;
 }
-/**/
 void encpryptText(huffmancodes codes[], string txt, int used){
 	int stringLength, i, j;
 	FILE* file;
@@ -231,11 +199,10 @@ void encpryptText(huffmancodes codes[], string txt, int used){
 	for (i = 0; i < stringLength; i++){
 		huff = bitrep(codes, used, txt[i]);
 		if (huff != NULL){
-			writeArr(huff,file);
+			writeHuff(huff, file);
 		}
 	}
 	fclose(file);
-
 }
 huffmancodes bitrep(huffmancodes codes[], int used, char character){
 	int i;
