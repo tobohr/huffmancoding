@@ -220,13 +220,14 @@ void decryptText(nodeT root, string txt){
 	FILE* file;
 	depth = malloc(sizeof(int));
 	(*depth) = 0;
+	file = fopen("decrypted.txt", "a");
 	stringLength = StringLength(txt);
 	for (i = 0; (*depth) < stringLength; i++){
-		file = fopen("decode.txt", "a");
 		character = traverseTree(root, txt, depth);
 		fputc(character, file);
-		fclose(file);
 	}
+	fclose(file);
+	return;
 }
 char traverseTree(nodeT root, string pattern, int* depth){ 
 	int bit;
