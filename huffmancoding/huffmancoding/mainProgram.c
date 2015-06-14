@@ -23,7 +23,7 @@ void main(void){
 	string *cmd;
 	cmd = malloc(20 * sizeof(char));
 	nodeT huffmantree;
-	huffmancodes codes[200];
+	huffmancodesT codes[200];
 	menu();
 	while (TRUE)
 	{
@@ -41,7 +41,7 @@ void main(void){
 			decryptWrap(huffmantree);
 	}
 }
-nodeT huffmancodeWrap(huffmancodes *codes){
+nodeT huffmancodeWrap(huffmancodesT *codes){
 		char *txtfile, filename[40], bits[120];
 		int i, j, depth, Amountofbitsbefore, Amountofbits;
 		string filename2;

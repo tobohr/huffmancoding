@@ -28,18 +28,18 @@ typedef struct {
 	int usedLength;
 	char character;
 	double freq;
-}*huffmancodes;
+}*huffmancodesT;
 
 static int currenthuffman;
 
-void writeHuff(huffmancodes huff, FILE *file);
+void writeHuff(huffmancodesT huff, FILE *file);
 int nodecmp(const void * a, const void * b);
 
-void encpryptText(huffmancodes codes[], string txt, int used);
+void encpryptText(huffmancodesT codes[], string txt, int used);
 void decryptText(nodeT root, string txt);
 
-huffmancodes bitrep(huffmancodes codes[], int used, char character);
-void computeCodes(nodeT root, int arr[], int top, huffmancodes codes[]);
+huffmancodesT bitrep(huffmancodesT codes[], int used, char character);
+void computeCodes(nodeT root, int arr[], int top, huffmancodesT codes[]);
 
 
 char traverseTree(nodeT root, string pattern, int* depth);
@@ -53,6 +53,6 @@ nodeT buildHuffmanTree(priority_queue *pq);
 nodeT buildHuffmanLeaf(priority_queue *pq);
 
 void readFreqFromFile(string filename, priority_queue *pq);
-void saveFileFreq(huffmancodes codes[], int count);
+void saveFileFreq(huffmancodesT codes[], int count);
 
 void printArr(int arr[], int n);

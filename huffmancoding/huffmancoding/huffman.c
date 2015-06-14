@@ -66,7 +66,7 @@ void printArr(int arr[], int n)
 		printf("%d", arr[i]);
 	printf("\n");
 }
-void writeHuff(huffmancodes huff, FILE *file)
+void writeHuff(huffmancodesT huff, FILE *file)
 {
 	int i; char *code;
 	code = malloc(sizeof(*code) * huff->usedLength);
@@ -77,7 +77,7 @@ void writeHuff(huffmancodes huff, FILE *file)
 	fputs(code, file);
 	return;
 }
-void computeCodes(nodeT root, int arr[], int depth, huffmancodes codes[]){
+void computeCodes(nodeT root, int arr[], int depth, huffmancodesT codes[]){
 	if (root->leftchild)
 	{
 		arr[depth] = 0;
@@ -91,7 +91,7 @@ void computeCodes(nodeT root, int arr[], int depth, huffmancodes codes[]){
 	if (root->nodetype == NodeLeaf)
 	{
 		int i;
-		codes[currenthuffman] = New(huffmancodes);
+		codes[currenthuffman] = New(huffmancodesT);
 		for (i = 0; i < depth; i++){
 			codes[currenthuffman]->bits[i] = arr[i];
 		}
@@ -189,11 +189,11 @@ nodeT buildHuffmanLeaf(priority_queue *pq){
 	priority_queue_insert(pq, top);
 	return top;
 }
-void encpryptText(huffmancodes codes[], string txt, int used){
+void encpryptText(huffmancodesT codes[], string txt, int used){
 	int stringLength, i, j;
 	FILE* file;
 	string code;
-	huffmancodes huff;
+	huffmancodesT huff;
 	file = fopen("huff.txt", "a");
 	stringLength = StringLength(txt);
 	for (i = 0; i < stringLength; i++){
@@ -204,7 +204,7 @@ void encpryptText(huffmancodes codes[], string txt, int used){
 	}
 	fclose(file);
 }
-huffmancodes bitrep(huffmancodes codes[], int used, char character){
+huffmancodesT bitrep(huffmancodesT codes[], int used, char character){
 	int i;
 	for (i = 0; i < used; i++){
 		if (codes[i]->character == character){
@@ -268,7 +268,7 @@ void readFreqFromFile(string filename, priority_queue *pq){
 	}
 	fclose(file);
 }
-void saveFileFreq(huffmancodes codes[], int count){
+void saveFileFreq(huffmancodesT codes[], int count){
 	int i;
 	FILE *file;
 	char filename[30];
