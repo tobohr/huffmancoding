@@ -1,6 +1,4 @@
 #include "huffman.h"
-#include <stdio.h>
-#include <string.h>
 char* readFileToString(string filepath){
 	long length;
 	FILE * file;
@@ -140,26 +138,6 @@ void printTree(nodeT root, int arr[], int depth, bool Right)
 	}
 }
 
-
-void printCodes(nodeT root, int arr[], int depth)
-{
-	if (root->leftchild)
-	{
-		printf("/\n");
-		arr[depth] = 0;
-		printCodes(root->leftchild, arr, depth + 1);
-	}
-	if (root->rightchild)
-	{
-		arr[depth] = 1;
-		printCodes(root->rightchild, arr, depth + 1);
-	}
-	if (root->nodetype == NodeLeaf)
-	{
-		printf("%s: ", root->charvalue.val);
-		printArr(arr, depth);
-	}
-}
 nodeT buildHuffmanTree(priority_queue *pq){
 	nodeT top;
 	int arr[30], depth, pqsize;

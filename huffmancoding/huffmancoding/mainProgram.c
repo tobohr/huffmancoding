@@ -14,8 +14,6 @@ void decryptWrap(nodeT huffmantree);
 nodeT huffmancodeWrap(void);
 void getfreqWrap(string txtfile, priority_queue *pq);
 void Usefilefreq(void);
-void printTree(nodeT root, int arr[], int depth, bool Right);
-
 static bool useFreqFromOtherFile = FALSE;
 static int pqsize;
 
@@ -31,14 +29,17 @@ void main(void){
 		scanf("%s", cmd);
 		if (StringEqual("codefile", cmd))
 			huffmantree = huffmancodeWrap(codes);
-		if (StringEqual("decrypt", cmd))
+		else if (StringEqual("decrypt", cmd))
 			decryptWrap(huffmantree); 
-		if (StringEqual("loadfreq", cmd))
+		else if (StringEqual("loadfreq", cmd))
 			Usefilefreq();
-		if (StringEqual("savefreq", cmd))
+		else if (StringEqual("savefreq", cmd))
 			saveFileFreq(codes, pqsize);
-		if (StringEqual("decrypt", cmd))
+		else if (StringEqual("decrypt", cmd))
 			decryptWrap(huffmantree);
+		else{
+			printf("Unknown command\n");
+		}
 	}
 }
 nodeT huffmancodeWrap(huffmancodesT *codes){
