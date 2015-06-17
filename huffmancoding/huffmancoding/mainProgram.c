@@ -11,7 +11,7 @@
 void menu(void);
 
 void decryptWrap(nodeT huffmantree);
-nodeT huffmancodeWrap(void);
+nodeT huffmancodeWrap(huffmancodesT *codes);
 void getfreqWrap(string txtfile, priority_queue *pq);
 void Usefilefreq(void);
 static bool useFreqFromOtherFile = FALSE;
@@ -38,7 +38,7 @@ void main(void){
 		else if (StringEqual("decrypt", cmd))
 			decryptWrap(huffmantree);
 		else{
-			printf("Unknown command\n");
+			printf("Not implemented command\n");
 		}
 	}
 }

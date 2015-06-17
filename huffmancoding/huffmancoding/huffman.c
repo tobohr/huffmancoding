@@ -175,14 +175,14 @@ void encpryptText(huffmancodesT codes[], string txt, int used){
 	file = fopen("huff.txt", "a");
 	stringLength = StringLength(txt);
 	for (i = 0; i < stringLength; i++){
-		huff = bitrep(codes, used, txt[i]);
+		huff = gethuffmancode(codes, used, txt[i]);
 		if (huff != NULL){
 			writeHuff(huff, file);
 		}
 	}
 	fclose(file);
 }
-huffmancodesT bitrep(huffmancodesT codes[], int used, char character){
+huffmancodesT gethuffmancode(huffmancodesT codes[], int used, char character){
 	int i;
 	for (i = 0; i < used; i++){
 		if (codes[i]->character == character){

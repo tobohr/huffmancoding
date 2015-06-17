@@ -55,6 +55,11 @@ void decryptText(nodeT root, string txt);
 * Travereses the huffmantree and saves the codes in huffmancodesT array
  */
 void computeCodes(nodeT root, int arr[], int depth, huffmancodesT codes[]);
+/*Function: gethuffmancode
+*----------------------------
+* returns the huffmancodeT for the coresponding character.
+*/
+huffmancodesT gethuffmancode(huffmancodesT codes[], int used, char character);
 /*Function: writeHuff
 * ---------------------------- 
 * Writes huffman represention to file.
